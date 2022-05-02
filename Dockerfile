@@ -2,4 +2,11 @@
 
 
 FROM mysql:8.0.28-oracle
+ADD db.sql /docker-entrypoint-initdb.d
+EXPOSE 3306
 COPY . /
+
+#compose/compose.yml
+#https://docs.docker.com/compose/compose-file/
+#image, depends-on, restart, ports, links, volumes
+#compose has its own network?

@@ -4,11 +4,11 @@ if sql container not created:
 	docker network create opennetworkconnection
 	docker run -d --network opennetworkconnection --network-alias mysqlnet -v ms-data:/var/lib/mysql -e MYSQL_ROOT_PASSWORD=password -e MYSQL_DATABASE=sys mysql:8.0.22
 	docker container ls (to find the name of container)
-	docker container rename containerNamemysqldb
+	docker container rename containerName mysqldb
 	(move to location with .sql data)
 	docker exec -i mysqldb mysql -uroot --password="password" alinedb < db.sql
 	docker exec -it mysqldb bash
-	(in bash) mysql -u root -p alinedb 0h 127.0.0.1
+	(in bash) mysql -u root -p alinedb -h 127.0.0.1
 	>password
 	
 	(int sql prompt)
