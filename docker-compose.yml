@@ -1,68 +1,68 @@
+#partial docker compose file with only sql and gateway
 version: "3.3"
 services:
     sql:
-        build: .
+        #build: . #
+        image: joeljoshismoothstack/aline_sql ## replace with above if it dosen't work
         ports:
             - "3306:3306"
         volumes:
             - myVol:/var/lib/mysql
-        env_file:
-            - config.txt
+        #env_file:
+         #   - config.txt
         container_name: sql
             
         restart: always
         
+        environment:
+            - APP_SERVICE_HOST=0.0.0.0
+            - APP_PORT=3306
+            - JWT_SECRET_KEY="eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IlBpc3MgYW5kIFNoaXQiLCJpYXQiOjE1MTYyMzkwMjJ9.8WS8tUDk_9ED_Oj2Gz2b2mL1bzZ7koaTlk1_KwZmpPM"
+            - DB_HOST=127.0.0.1
+            - DB_PASSWORD=password
+            - DB_USERNAME=root
+            - MYSQL_ROOT_PASSWORD=password
+            - MYSQL_DATABASE=sys
+            - DB_PORT=3306
+        
     gatewayms:
-        image: gatewayms
+        image: joeljoshismoothstack/gatewayms
         ports:
             - "4001:4001"
             
-        env_file:
-            - config.txt
+        environment:
+            - APP_SERVICE_HOST=0.0.0.0
+            - APP_PORT=4001
+            - JWT_SECRET_KEY="eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IlBpc3MgYW5kIFNoaXQiLCJpYXQiOjE1MTYyMzkwMjJ9.8WS8tUDk_9ED_Oj2Gz2b2mL1bzZ7koaTlk1_KwZmpPM"
+            - DB_HOST=127.0.0.1
+            - DB_PASSWORD=password
+            - DB_USERNAME=root
+            - MYSQL_ROOT_PASSWORD=password
+            - MYSQL_DATABASE=sys
+            - DB_PORT=3306
+            
             
         depends_on:
             - sql
     userms:
-        image: userms
-        ports:
-            - "8070:8070"
-        env_file:
-            - config.txt
+       image: joeljoshismoothstack/userms
+       ports:
+           - "8070:8070"
+
+       environment:
+           - APP_SERVICE_HOST=0.0.0.0
+           - APP_PORT=8070
+           - JWT_SECRET_KEY="eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IlBpc3MgYW5kIFNoaXQiLCJpYXQiOjE1MTYyMzkwMjJ9.8WS8tUDk_9ED_Oj2Gz2b2mL1bzZ7koaTlk1_KwZmpPM"
+           - DB_HOST=127.0.0.1
+           - DB_PASSWORD=password
+           - DB_USERNAME=root
+           - MYSQL_ROOT_PASSWORD=password
+           - MYSQL_DATABASE=sys
+           - DB_PORT=3306
             
-        depends_on:
-            - gatewayms
-        
-        
-    transactionms:
-        image: transactionms
-        ports:
-            - "8073:8073"
-        env_file:
-            - config.txt
-        
-        depends_on:
-            - gatewayms
-        
-    bankms:
-        image: bankms
-        ports:
-            - "8083:8083"
-        env_file:
-            - config.txt
-        
-        depends_on:
-            - gatewayms
-        
-    underwriterms:
-        image: underwriterms
-        ports:
-            - "8071:8071"
-        env_file:
-            - config.txt
-        
-        depends_on:
-            - gatewayms
-        
+       depends_on:
+           - gatewayms
+
 volumes:
     myVol:
         #external: #swarm stuff

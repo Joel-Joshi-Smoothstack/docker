@@ -1,0 +1,136 @@
+#full docker compose file for all services
+version: "3.3"
+services:
+    sql:
+        #build: . #
+        image: joeljoshismoothstack/aline_sql ## replace with above if it dosen't work
+        ports:
+            - "3306:3306"
+        volumes:
+            - myVol:/var/lib/mysql
+        #env_file:
+         #   - config.txt
+        container_name: sql
+            
+        restart: always
+        
+        environment:
+            - APP_SERVICE_HOST=0.0.0.0
+            - APP_PORT=3306
+            - JWT_SECRET_KEY="eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IlBpc3MgYW5kIFNoaXQiLCJpYXQiOjE1MTYyMzkwMjJ9.8WS8tUDk_9ED_Oj2Gz2b2mL1bzZ7koaTlk1_KwZmpPM"
+            - DB_HOST=127.0.0.1
+            - DB_PASSWORD=password
+            - DB_USERNAME=root
+            - MYSQL_ROOT_PASSWORD=password
+            - MYSQL_DATABASE=sys
+            - DB_PORT=3306
+        
+    gatewayms:
+        image: joeljoshismoothstack/gatewayms
+        ports:
+            - "4001:4001"
+            
+        environment:
+            - APP_SERVICE_HOST=0.0.0.0
+            - APP_PORT=4001
+            - JWT_SECRET_KEY="eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IlBpc3MgYW5kIFNoaXQiLCJpYXQiOjE1MTYyMzkwMjJ9.8WS8tUDk_9ED_Oj2Gz2b2mL1bzZ7koaTlk1_KwZmpPM"
+            - DB_HOST=127.0.0.1
+            - DB_PASSWORD=password
+            - DB_USERNAME=root
+            - MYSQL_ROOT_PASSWORD=password
+            - MYSQL_DATABASE=sys
+            - DB_PORT=3306
+            
+            
+        depends_on:
+            - sql
+    userms:
+        image: joeljoshismoothstack/userms
+        ports:
+            - "8070:8070"
+
+        environment:
+            - APP_SERVICE_HOST=0.0.0.0
+            - APP_PORT=8070
+            - JWT_SECRET_KEY="eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IlBpc3MgYW5kIFNoaXQiLCJpYXQiOjE1MTYyMzkwMjJ9.8WS8tUDk_9ED_Oj2Gz2b2mL1bzZ7koaTlk1_KwZmpPM"
+            - DB_HOST=127.0.0.1
+            - DB_PASSWORD=password
+            - DB_USERNAME=root
+            - MYSQL_ROOT_PASSWORD=password
+            - MYSQL_DATABASE=sys
+            - DB_PORT=3306
+            
+        depends_on:
+            - gatewayms
+        
+        
+    transactionms:
+        image: joeljoshismoothstack/transactionms
+        ports:
+            - "8073:8073"
+            
+        environment:
+            - APP_SERVICE_HOST=0.0.0.0
+            - APP_PORT=8073
+            - JWT_SECRET_KEY="eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IlBpc3MgYW5kIFNoaXQiLCJpYXQiOjE1MTYyMzkwMjJ9.8WS8tUDk_9ED_Oj2Gz2b2mL1bzZ7koaTlk1_KwZmpPM"
+            - DB_HOST=127.0.0.1
+            - DB_PASSWORD=password
+            - DB_USERNAME=root
+            - MYSQL_ROOT_PASSWORD=password
+            - MYSQL_DATABASE=sys
+            - DB_PORT=3306
+        
+        depends_on:
+            - gatewayms
+        
+    bankms:
+        image: joeljoshismoothstack/bankms
+        ports:
+            - "8083:8083"
+
+        environment:
+            - APP_SERVICE_HOST=0.0.0.0
+            - APP_PORT=8083
+            - JWT_SECRET_KEY="eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IlBpc3MgYW5kIFNoaXQiLCJpYXQiOjE1MTYyMzkwMjJ9.8WS8tUDk_9ED_Oj2Gz2b2mL1bzZ7koaTlk1_KwZmpPM"
+            - DB_HOST=127.0.0.1
+            - DB_PASSWORD=password
+            - DB_USERNAME=root
+            - MYSQL_ROOT_PASSWORD=password
+            - MYSQL_DATABASE=sys
+            - DB_PORT=3306
+        
+        depends_on:
+            - gatewayms
+        
+    underwriterms:
+        image: joeljoshismoothstack/underwriterms
+        ports:
+            - "8071:8071"
+            
+            
+        environment:
+            - APP_SERVICE_HOST=0.0.0.0
+            - APP_PORT=8071
+            - JWT_SECRET_KEY="eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IlBpc3MgYW5kIFNoaXQiLCJpYXQiOjE1MTYyMzkwMjJ9.8WS8tUDk_9ED_Oj2Gz2b2mL1bzZ7koaTlk1_KwZmpPM"
+            - DB_HOST=127.0.0.1
+            - DB_PASSWORD=password
+            - DB_USERNAME=root
+            - MYSQL_ROOT_PASSWORD=password
+            - MYSQL_DATABASE=sys
+            - DB_PORT=3306
+        
+        depends_on:
+            - gatewayms
+        
+volumes:
+    myVol:
+        #external: #swarm stuff
+           #name: alineService_myVol #swarm stuff
+    
+    
+    
+
+    
+    
+    
+        
