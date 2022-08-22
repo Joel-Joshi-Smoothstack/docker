@@ -13,8 +13,9 @@ pipeline {
 		
 		
 		stage("Move"){
-			dir("../aline.gateway.jj"){
-				steps{
+			steps{
+				dir("../aline.gateway.jj"){
+				
 					sh "pwd"
 				
 				}
