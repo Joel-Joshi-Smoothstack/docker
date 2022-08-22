@@ -11,6 +11,16 @@ pipeline {
 			}
 		
 		
+		stage("Move"){
+			dir("../aline.gateway.jj"){
+				steps{
+					sh "pwd"
+				
+				}
+			
+			}
+		
+		}
 		
 		
 		
@@ -20,6 +30,7 @@ pipeline {
 			steps{
 				sh "docker compose up -d"
 				sh "docker compose ps"
+				sh "docker compose down"
 			
 			
 			
