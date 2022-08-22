@@ -25,7 +25,6 @@ pipeline {
 		
 		
 		
-		}
 		
 		stage("Compose Up"){
 			steps{
@@ -46,6 +45,8 @@ pipeline {
 	
 	
 	}
+	
+}
 
 
 
